@@ -23,8 +23,8 @@ foreign import _mousedown :: Unit -> String -> (Number -> Number -> Number -> Ef
 mousedown :: String -> (Number -> Number -> Number -> Effect Unit) -> Effect Unit
 mousedown = _mousedown unit
 
-foreign import _frames :: Unit -> Effect Unit -> Effect Unit
-frames :: Effect Unit -> Effect Unit
+foreign import _frames :: Unit -> (Number -> Effect Unit) -> Effect Unit
+frames :: (Number -> Effect Unit) -> Effect Unit
 frames = _frames unit
 
 foreign import _after :: Unit -> Number -> Effect Unit -> Effect Unit
@@ -34,3 +34,15 @@ after = _after unit
 foreign import _resize :: Unit -> Effect Unit -> Effect Unit
 resize :: Effect Unit -> Effect Unit
 resize = _resize unit
+
+foreign import _setCanvasBackground :: Unit -> String -> Number -> Number -> Effect Unit
+setCanvasBackground :: String -> Number -> Number -> Effect Unit
+setCanvasBackground = _setCanvasBackground unit
+
+foreign import _music :: Unit -> String -> Effect Unit
+music :: String -> Effect Unit
+music = _music unit
+
+foreign import _sound :: Unit -> String -> Effect Unit
+sound :: String -> Effect Unit
+sound = _sound unit

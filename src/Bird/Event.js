@@ -89,8 +89,11 @@ exports._mousedown = function (unit) {
 exports._frames = function (unit) {
     return function (handler) {
         return function () {
+            var last = Date.now();
             window.requestAnimationFrame(function tick(_) {
-                handler();
+                var now = Date.now();
+                handler(now - last)();
+                last = now;
                 window.requestAnimationFrame(tick);
             });
             return unit;
@@ -116,6 +119,47 @@ exports._resize = function (unit) {
                 handler();
             });
             return unit;
+        };
+    };
+};
+
+exports._setCanvasBackground = function (unit) {
+    return function(bg) {
+        return function (width) {
+            return function(height) {
+                return function () {
+                    var elem = document.getElementById("canvas");
+                    var widthpx = width.toString() + "px";
+                    var heightpx = height.toString() + "px";
+                    if (elem) {
+                        elem.style.backgroundImage = bg;
+                        elem.style.backgroundSize = widthpx + " " + heightpx;
+                        elem.style.width = widthpx;
+                        elem.style.height = heightpx;
+                    };
+                    return unit;
+                };
+            };
+        };
+    };
+};
+
+
+exports._music = function (unit) {
+    return function (song) {
+        var audio = new Audio(song);
+        audio.loop = true;
+        return function () {
+            audio.play();
+        };
+    };
+};
+
+exports._sound = function (unit) {
+    return function (song) {
+        var audio = new Audio(song);
+        return function () {
+            audio.play();
         };
     };
 };
